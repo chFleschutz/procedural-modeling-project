@@ -56,29 +56,24 @@ public:
 
 private:
     // Hier ist Platz für Deine Vektoriaobjekte:
-	CRoot m_zr;
-	CFrame m_zf;
-	CViewport m_zv;
-	CLightParallel m_zl;
-	CScene m_zs;
+	CRoot m_root;
+	CFrame m_frame;
+	CViewport m_viewport;
+	CLightParallel m_light;
+	CScene m_scene;
 
-	CPlacement m_zpCamera;
-	CCamera m_zc;
+	CPlacement m_cameraPlace;
+	CCamera m_camera;
 
-	CPlacement m_zpSphere;
-	CGeoSphere m_zgSphere;
-	CMaterial m_zmSphereLowRes;
-	CMaterial m_zmSphereHighRes;
+	CPlacement m_spherePlace;
+	CGeoSphere m_sphere;
+	CMaterial m_sphereMat;
 
-	CPlacement m_zpSky;
-	CGeoSphere m_zgSky;
-	CMaterial m_zmSkyLowRes;
-	CMaterial m_zmSkyHighRes;
+	CPlacement m_skyPlace;
+	CGeoSphere m_skydome;
+	CMaterial m_skyMat;
 
-	CWriting m_zwHalloWelt;
-	CWriting m_azwAdditionalText[4];
-	CWritingFont m_zwfRed;
-	CWritingFont m_zwfWhite;
+	CDeviceKeyboard m_keyboard;
 };
 
 

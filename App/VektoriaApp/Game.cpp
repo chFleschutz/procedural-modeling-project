@@ -17,9 +17,11 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_frame.Init(hwnd, procOS);
 	m_frame.AddDeviceKeyboard(&m_keyboard);
 	m_viewport.InitFull(&m_camera);
+	m_viewport.SetHazeOn();
 
 	// Camera
-	m_cameraPlace.TranslateZ(7.0f);
+	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
+	m_cameraPlace.TranslateDelta(0.0f, 50.0f, 100.0f);
 
 	// Light
 	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 1.0f, 1.0f));
@@ -40,6 +42,17 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_root.AddMaterial(&m_sphereMat);
 	m_sphere.SetMaterial(&m_sphereMat);
 
+	// Island
+	m_waterMat.LoadPreset("Water");
+	m_waterMat.SetHazeOn();
+	m_groundMat.LoadPreset("RockMossy");
+	m_root.AddMaterial(&m_waterMat);
+	m_root.AddMaterial(&m_groundMat);
+
+	m_island.setWaterMaterial(&m_waterMat);
+	m_island.setGroundMaterial(&m_groundMat);
+	m_island.initialize(m_scene, 100.0f, 100.0f);
+
 	// Scene Hierachy
 	m_root.AddFrame(&m_frame);
 	m_root.AddScene(&m_scene);
@@ -57,7 +70,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 void CGame::Tick(float fTime, float fTimeDelta)
 {
 	// Camera movement
-	float timeScaled = fTimeDelta * 5.0f;
+	float timeScaled = fTimeDelta * 10.0f;
 	m_keyboard.PlaceWASD(m_cameraPlace, timeScaled, true);
 
 	// Lass die Kugel rotieren:

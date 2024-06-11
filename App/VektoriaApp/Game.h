@@ -21,6 +21,7 @@
 
 
 #include "Vektoria\Root.h"
+#include "island.h"
 
 using namespace Vektoria;
 
@@ -33,7 +34,6 @@ public:
 
 	// Wird nach Ende einmal aufgerufen (Destruktor):
 	~CGame(void);																				
-
 
 	// Wird zu Begin einmal aufgerufen:
 	void Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash * psplash);	
@@ -52,7 +52,6 @@ public:
 
 	// Holt die Versionsnummer:
 	float GetVersion();
-
 
 private:
     // Hier ist Platz für Deine Vektoriaobjekte:
@@ -73,7 +72,13 @@ private:
 	CGeoSphere m_skydome;
 	CMaterial m_skyMat;
 
+	Island m_island;
+
 	CDeviceKeyboard m_keyboard;
+
+	// Materials
+	CMaterial m_waterMat;
+	CMaterial m_groundMat;
 };
 
 

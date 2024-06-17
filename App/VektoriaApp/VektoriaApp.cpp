@@ -1,10 +1,15 @@
-// ------------------------------------------------------------------------
-// VektoriaApp.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung
-// Autor: Tobias Breiner
-// ------------------------------------------------------------------------
+//-----------------------------------------------------------------------
+// VektoriaApp.cpp : Definiert den Einstiegspunkt einer Windows-Anwendung für Vektoria
+// 
+// Erklärung : Untenstehender Code erzeugt ein Windows-Fenster für eine einfache Vektoria-Anwendung
+// Autor     : Prof. Dr. Tobias Breiner
+// Ort       : Pfungstadt
+// Zeit      : seit Aug. 2011 (mit seitdem ständigen Verbesserungs-Updates)
+// Copyright : Tobias Breiner  
+// Disclaimer: Nutzung auf eigene Gefahr, keine Gewähr, no warranty!
+//------------------------------------------------------------------------
 
 #include "Game.h" // Das Spiel (Achtung: Muss wegen winsock der Vektoria-Netzwerkklassen vor windows.h inkludiert werden!) 
-// #include <windows.h> // Windows
 #include "resource.h" // Das Icon
 #include "Vektoria\Timer.h" // Timer fütr die Frame-Rate-Anzeige
 #include "Vektoria\Splash.h" // Für den Splash-Screen (Allgemein)

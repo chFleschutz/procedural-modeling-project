@@ -11,21 +11,19 @@ CGame::~CGame(void)
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
 	m_root.Init(psplash);
-	m_frame.SetApiRender(eApiRender_DirectX11);
+	m_frame.SetApiRender(eApiRender_DirectX12);
 	m_root.SetFrameRateMax(100.0f);
 	m_camera.Init(THIRDPI);
 	m_frame.Init(hwnd, procOS);
 	m_frame.AddDeviceKeyboard(&m_keyboard);
 	m_viewport.InitFull(&m_camera);
-	m_viewport.SetHazeOn();
-	m_scene.SetSkyOn(&m_cameraPlace);
 
 	// Camera
 	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
 	m_cameraPlace.TranslateDelta(0.0f, 50.0f, 100.0f);
 
 	// Light
-	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 0.4f, 0.4f));
+	m_light.Init(CHVector(-1.0f, -1.0f, -1.0f), CColor(1.0f, 0.4f, 0.4f));
 
 	// Skydome and sky
 	m_skydome.Init(1000.0F, nullptr, 20, 20);
@@ -64,7 +62,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_scene.AddLightParallel(&m_light);
 	m_spherePlace.AddGeo(&m_sphere);
-	//m_scene.AddPlacement(&m_skyPlace);
+	m_scene.AddPlacement(&m_skyPlace);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)
@@ -82,6 +80,7 @@ void CGame::Tick(float fTime, float fTimeDelta)
 
 void CGame::Fini()
 {
+	m_root.Fini();
 }
 
 void CGame::WindowReSize(int iNewWidth, int iNewHeight)

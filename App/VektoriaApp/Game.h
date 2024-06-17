@@ -54,7 +54,6 @@ public:
 	float GetVersion();
 
 private:
-    // Hier ist Platz für Deine Vektoriaobjekte:
 	CRoot m_root;
 	CFrame m_frame;
 	CViewport m_viewport;

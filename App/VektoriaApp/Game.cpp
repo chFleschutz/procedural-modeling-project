@@ -18,13 +18,14 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_frame.AddDeviceKeyboard(&m_keyboard);
 	m_viewport.InitFull(&m_camera);
 	m_viewport.SetHazeOn();
+	m_scene.SetSkyOn(&m_cameraPlace);
 
 	// Camera
 	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
 	m_cameraPlace.TranslateDelta(0.0f, 50.0f, 100.0f);
 
 	// Light
-	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 1.0f, 1.0f));
+	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 0.4f, 0.4f));
 
 	// Skydome and sky
 	m_skydome.Init(1000.0F, nullptr, 20, 20);
@@ -43,9 +44,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_sphere.SetMaterial(&m_sphereMat);
 
 	// Island
-	m_waterMat.LoadPreset("Water");
-	m_waterMat.SetHazeOn();
-	m_groundMat.LoadPreset("RockMossy");
+	m_waterMat.LoadPreset("Blood");
+	m_groundMat.LoadPreset("RockSnowy");
 	m_root.AddMaterial(&m_waterMat);
 	m_root.AddMaterial(&m_groundMat);
 
@@ -64,7 +64,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_scene.AddLightParallel(&m_light);
 	m_spherePlace.AddGeo(&m_sphere);
-	m_scene.AddPlacement(&m_skyPlace);
+	//m_scene.AddPlacement(&m_skyPlace);
 }
 
 void CGame::Tick(float fTime, float fTimeDelta)

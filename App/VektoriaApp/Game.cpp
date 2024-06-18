@@ -11,12 +11,26 @@ CGame::~CGame(void)
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
 	m_root.Init(psplash);
-	m_frame.SetApiRender(eApiRender_DirectX11);
 	m_root.SetFrameRateMax(100.0f);
-	m_camera.Init(THIRDPI);
+	m_frame.SetApiRender(eApiRender_DirectX11);
 	m_frame.Init(hwnd, procOS);
 	m_frame.AddDeviceKeyboard(&m_keyboard);
+	m_camera.Init(THIRDPI);
 	m_viewport.InitFull(&m_camera);
+
+	// Materials
+	m_skyMat.LoadPreset("EnvChurchLowRes");
+	m_root.AddMaterial(&m_skyMat);
+
+	m_sphereMat.LoadPreset("HalloWeltLowRes");
+	m_sphereMat.AlterEnvPath("..//..//lib//Materials//EnvChurchLowRes//EnvChurchLowResD.jpg", false);
+	m_sphere.SetMaterial(&m_sphereMat);
+	
+	m_waterMat.LoadPreset("Blood");
+	m_root.AddMaterial(&m_waterMat);
+
+	m_groundMat.LoadPreset("RockSnowy");
+	m_root.AddMaterial(&m_groundMat);
 
 	// Camera
 	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
@@ -26,27 +40,15 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 0.4f, 0.4f));
 
 	// Skydome and sky
-	m_skydome.Init(1000.0F, nullptr, 20, 20);
+	m_skydome.Init(1000.0F, &m_skyMat, 20, 20);
 	m_skydome.Flip();
 	m_skyPlace.SetSky();
 	m_skyPlace.AddGeo(&m_skydome);
-	m_skyMat.LoadPreset("EnvChurchLowRes");
-	m_skydome.SetMaterial(&m_skyMat);
-	m_root.AddMaterial(&m_skyMat);
 
 	// Sphere
-	m_sphere.Init(1.5F, nullptr, 50, 50);
-	m_sphereMat.LoadPreset("HalloWeltLowRes");
-	m_sphereMat.AlterEnvPath("..//..//lib//Materials//EnvChurchLowRes//EnvChurchLowResD.jpg", false);
-	m_root.AddMaterial(&m_sphereMat);
-	m_sphere.SetMaterial(&m_sphereMat);
+	m_sphere.Init(1.5F, &m_sphereMat, 50, 50);
 
 	// Island
-	m_waterMat.LoadPreset("Blood");
-	m_groundMat.LoadPreset("RockSnowy");
-	m_root.AddMaterial(&m_waterMat);
-	m_root.AddMaterial(&m_groundMat);
-
 	m_island.setWaterMaterial(&m_waterMat);
 	m_island.setGroundMaterial(&m_groundMat);
 	m_island.initialize(m_scene, 100.0f, 100.0f);

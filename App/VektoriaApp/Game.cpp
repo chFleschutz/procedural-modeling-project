@@ -1,12 +1,5 @@
 #include "Game.h"
 
-CGame::CGame(void)
-{
-}
-
-CGame::~CGame(void)
-{
-}
 
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
@@ -17,6 +10,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_frame.AddDeviceKeyboard(&m_keyboard);
 	m_camera.Init(THIRDPI);
 	m_viewport.InitFull(&m_camera);
+
+	m_scene.SetLightAmbient(Vektoria::CColor(1.0f, 0.9f, 0.9f));
+	m_scene.SetLightAmbient(0.1f);
 
 	// Materials
 	m_skyMat.LoadPreset("EnvChurchLowRes");
@@ -34,16 +30,16 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Camera
 	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
-	m_cameraPlace.TranslateDelta(0.0f, 50.0f, 100.0f);
+	m_cameraPlace.TranslateDelta(0.0f, 20.0f, 20.0f);
 
 	// Light
-	m_light.Init(CHVector(1.0f, 1.0f, 1.0f), CColor(1.0f, 0.4f, 0.4f));
+	m_light.Init(CHVector(1.0f, 1.0f, 0.0f), CColor(1.0f, 0.8f, 0.8f));
 
 	// Skydome and sky
-	m_skydome.Init(1000.0F, &m_skyMat, 20, 20);
-	m_skydome.Flip();
-	m_skyPlace.SetSky();
-	m_skyPlace.AddGeo(&m_skydome);
+	//m_skydome.Init(1000.0F, &m_skyMat, 20, 20);
+	//m_skydome.Flip();
+	//m_skyPlace.SetSky();
+	//m_skyPlace.AddGeo(&m_skydome);
 
 	// Sphere
 	m_sphere.Init(1.5F, &m_sphereMat, 50, 50);
@@ -52,6 +48,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_island.setWaterMaterial(&m_waterMat);
 	m_island.setGroundMaterial(&m_groundMat);
 	m_island.initialize(m_scene, 100.0f, 100.0f);
+
+	// UFO
+	m_ufo.initialize(m_scene, { 0.0f, 10.0f, 0.0f });
 
 	// Scene Hierachy
 	m_root.AddFrame(&m_frame);
@@ -67,17 +66,19 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_scene.AddPlacement(&m_skyPlace);
 }
 
-void CGame::Tick(float fTime, float fTimeDelta)
+void CGame::Tick(float time, float timeDelta)
 {
 	// Camera movement
-	float timeScaled = fTimeDelta * 10.0f;
+	float timeScaled = timeDelta * 10.0f;
 	m_keyboard.PlaceWASD(m_cameraPlace, timeScaled, true);
 
 	// Lass die Kugel rotieren:
-	m_spherePlace.RotateY(-fTime);
-	m_spherePlace.RotateXDelta(0.8f * sinf(fTime * 0.2f));
+	m_spherePlace.RotateY(-time);
+	m_spherePlace.RotateXDelta(0.8f * sinf(time * 0.2f));
 
-	m_root.Tick(fTimeDelta);
+	m_ufo.update(timeDelta);
+
+	m_root.Tick(timeDelta);
 }
 
 void CGame::Fini()

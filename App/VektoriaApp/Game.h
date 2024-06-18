@@ -22,6 +22,7 @@
 
 #include "Vektoria\Root.h"
 #include "island.h"
+#include "ufo.h"
 
 using namespace Vektoria;
 
@@ -30,10 +31,10 @@ class CGame
 {
 public:
 	// Wird vor Begin einmal aufgerufen (Konstruktor):
-	CGame(void);																				
+	CGame(void) = default;
 
 	// Wird nach Ende einmal aufgerufen (Destruktor):
-	~CGame(void);																				
+	~CGame(void) = default;
 
 	// Wird zu Begin einmal aufgerufen:
 	void Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash * psplash);	
@@ -59,25 +60,26 @@ private:
 	CViewport m_viewport;
 	CLightParallel m_light;
 	CScene m_scene;
-
-	CPlacement m_cameraPlace;
 	CCamera m_camera;
-
-	CPlacement m_spherePlace;
-	CGeoSphere m_sphere;
-	CMaterial m_sphereMat;
-
-	CPlacement m_skyPlace;
-	CGeoSphere m_skydome;
-	CMaterial m_skyMat;
-
-	Island m_island;
 
 	CDeviceKeyboard m_keyboard;
 
 	// Materials
 	CMaterial m_waterMat;
 	CMaterial m_groundMat;
+	CMaterial m_sphereMat;
+	CMaterial m_skyMat;
+
+	CPlacement m_cameraPlace;
+
+	CPlacement m_spherePlace;
+	CGeoSphere m_sphere;
+
+	CPlacement m_skyPlace;
+	CGeoSphere m_skydome;
+
+	Island m_island;
+	UFO m_ufo;
 };
 
 

@@ -27,6 +27,9 @@
     <ClInclude Include="island.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="ufo.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

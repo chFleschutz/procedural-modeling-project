@@ -13,6 +13,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	m_scene.SetLightAmbient(Vektoria::CColor(1.0f, 0.9f, 0.9f));
 	m_scene.SetLightAmbient(0.1f);
+	m_scene.SetSkyOn(&m_cameraPlace);
+	m_scene.SetSkyTimeOfDay(0.5f);
+	m_scene.SetSkyFlowOn(0.0f);
 
 	// Materials
 	m_skyMat.LoadPreset("EnvChurchLowRes");
@@ -28,18 +31,17 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_groundMat.LoadPreset("RockSnowy");
 	m_root.AddMaterial(&m_groundMat);
 
+	m_beamMat.LoadPreset("PhongBlue");
+	m_beamMat.SetShadingOff();
+	m_beamMat.SetShadowsOff();
+	m_beamMat.SetTransparency(0.5f);
+
 	// Camera
 	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
 	m_cameraPlace.TranslateDelta(0.0f, 20.0f, 20.0f);
 
 	// Light
-	m_light.Init(CHVector(1.0f, 1.0f, 0.0f), CColor(1.0f, 0.8f, 0.8f));
-
-	// Skydome and sky
-	//m_skydome.Init(1000.0F, &m_skyMat, 20, 20);
-	//m_skydome.Flip();
-	//m_skyPlace.SetSky();
-	//m_skyPlace.AddGeo(&m_skydome);
+	m_light.Init(CHVector(1.0f, 1.0f, 0.0f), CColor(1.0f, 0.7f, 0.7f));
 
 	// Sphere
 	m_sphere.Init(1.5F, &m_sphereMat, 50, 50);
@@ -50,6 +52,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_island.initialize(m_scene, 100.0f, 100.0f);
 
 	// UFO
+	m_ufo.setBeamMaterial(&m_beamMat);
 	m_ufo.initialize(m_scene, { 0.0f, 10.0f, 0.0f });
 
 	// Scene Hierachy

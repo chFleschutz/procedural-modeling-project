@@ -69,6 +69,7 @@ private:
 	CMaterial m_groundMat;
 	CMaterial m_sphereMat;
 	CMaterial m_skyMat;
+	CMaterial m_beamMat;
 
 	CPlacement m_cameraPlace;
 

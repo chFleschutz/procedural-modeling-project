@@ -11,6 +11,10 @@ class UFO
 public:
 	struct Parameter
 	{
+		// Ufo
+		float rotationSpeed = -1.0f;
+		float tiltAngle = UM_DEG2RAD(5.0f);
+
 		// Ufo Body
 		float ufoRadius = 2.0f;
 		float ufoHeightRadius = 0.3f;
@@ -25,7 +29,11 @@ public:
 		int outerCubesCount = 30;
 		float outerCubeSize = 0.1f;
 		float outerRadiusOffset = 0.07f;
-		float outerRotationSpeed = 1.0f;
+		float outerRotationSpeed = 2.0f;
+
+		// Beam
+		float lowerBeamRadius = 2.0f;
+		float beamLength = 10.0f;
 	};
 
 	UFO() = default;
@@ -39,19 +47,21 @@ public:
 		// Hierachy
 		scene.AddPlacement(&m_place);
 		m_place.Translate(pos);
+		m_place.AddPlacement(&m_beamPlace);
 		m_place.AddPlacement(&m_bodyPlace);
-		m_place.AddPlacement(&m_topPlace);
-		m_place.AddPlacement(&m_outerCubesPlace);
+		m_bodyPlace.AddPlacement(&m_topPlace);
+		m_bodyPlace.AddPlacement(&m_outerCubesPlace);
+		m_bodyPlace.RotateDelta(1.0f, 0.0f, 1.0f, m_params.tiltAngle);
 
 		// Body
-		m_body.Init(m_params.ufoRadius, nullptr, m_params.ufoLongitudeSubdivs, m_params.ufoLattitudeSubdivs);
+		m_body.Init(m_params.ufoRadius, m_bodyMat, m_params.ufoLongitudeSubdivs, m_params.ufoLattitudeSubdivs);
 		Vektoria::CHMat bodyMat;
 		bodyMat.ScaleY(ufoHeightScale);
 		m_body.Transform(bodyMat);
 		m_bodyPlace.AddGeo(&m_body);
 
 		// Top Cockpit
-		m_top.Init(m_params.cockpitRadius, nullptr);
+		m_top.Init(m_params.cockpitRadius, m_cockpitMat);
 		Vektoria::CHMat topMat;
 		topMat.ScaleY(cockpitHeightScale);
 		m_top.Transform(topMat);
@@ -59,7 +69,7 @@ public:
 		m_topPlace.AddGeo(&m_top);
 
 		// Outer Cubes
-		m_outerCube.Init(m_params.outerCubeSize, nullptr);
+		m_outerCube.Init(m_params.outerCubeSize, m_outerCubeMat);
 		m_outerCubePlaces.resize(m_params.outerCubesCount);
 		for (int i = 0; i < m_params.outerCubesCount; i++)
 		{
@@ -70,12 +80,23 @@ public:
 			place.RotateYDelta((TWOPI / m_params.outerCubesCount) * i);
 			m_outerCubesPlace.AddPlacement(&place);
 		}
+
+		// Beam
+		m_beam.Init(m_params.lowerBeamRadius, m_params.beamLength, m_beamMat, 50);
+		m_beamPlace.TranslateY(-m_params.beamLength);
+		m_beamPlace.AddGeo(&m_beam);
 	}
 
 	void update(float timeDelta)
 	{
 		m_outerCubesPlace.RotateYDelta(m_params.outerRotationSpeed * timeDelta);
+		m_place.RotateYDelta(m_params.rotationSpeed * timeDelta);
 	}
+
+	void setBodyMaterial(Vektoria::CMaterial* material) { m_bodyMat = material; }
+	void setCockPitMaterial(Vektoria::CMaterial* material) { m_cockpitMat = material; }
+	void setOuterCubeMaterial(Vektoria::CMaterial* material) { m_outerCubeMat = material; }
+	void setBeamMaterial(Vektoria::CMaterial* material) { m_beamMat = material; }
 
 private:
 	Parameter m_params;
@@ -91,4 +112,13 @@ private:
 	Vektoria::CGeoCube m_outerCube;
 	Vektoria::CPlacement m_outerCubesPlace;
 	std::vector<Vektoria::CPlacement> m_outerCubePlaces;
+
+	Vektoria::CGeoCone m_beam;
+	Vektoria::CPlacement m_beamPlace;
+
+	// Materials
+	Vektoria::CMaterial* m_bodyMat = nullptr;
+	Vektoria::CMaterial* m_cockpitMat = nullptr;
+	Vektoria::CMaterial* m_outerCubeMat = nullptr;
+	Vektoria::CMaterial* m_beamMat = nullptr;
 };

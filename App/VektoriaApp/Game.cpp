@@ -55,6 +55,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_ufo.setBeamMaterial(&m_beamMat);
 	m_ufo.initialize(m_scene, { 0.0f, 10.0f, 0.0f });
 
+	// Building
+	m_building.initialize(m_scene, { 0.0f, 1.0f, 0.0f });
+
 	// Scene Hierachy
 	m_root.AddFrame(&m_frame);
 	m_root.AddScene(&m_scene);

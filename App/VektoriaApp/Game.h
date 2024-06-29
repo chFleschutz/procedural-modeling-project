@@ -23,6 +23,7 @@
 #include "Vektoria\Root.h"
 #include "island.h"
 #include "ufo.h"
+#include "building.h"
 
 using namespace Vektoria;
 
@@ -81,6 +82,7 @@ private:
 
 	Island m_island;
 	UFO m_ufo;
+	Building m_building;
 };
 
 

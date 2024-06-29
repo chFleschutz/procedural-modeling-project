@@ -153,6 +153,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="building.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="island.h" />
     <ClInclude Include="resource.h" />

@@ -8,8 +8,12 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_frame.SetApiRender(eApiRender_DirectX11);
 	m_frame.Init(hwnd, procOS);
 	m_frame.AddDeviceKeyboard(&m_keyboard);
-	m_camera.Init(THIRDPI);
 	m_viewport.InitFull(&m_camera);
+
+	// Camera
+	m_camera.Init(THIRDPI);
+	m_cameraPlace.SetRotationSensitivity(1.5f);
+	m_cameraPlace.SetTranslationSensitivity(15.0f);
 
 	m_scene.SetLightAmbient(Vektoria::CColor(1.0f, 0.9f, 0.9f));
 	m_scene.SetLightAmbient(0.1f);
@@ -75,8 +79,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 void CGame::Tick(float time, float timeDelta)
 {
 	// Camera movement
-	float timeScaled = timeDelta * 10.0f;
-	m_keyboard.PlaceWASD(m_cameraPlace, timeScaled, true);
+	m_keyboard.PlaceWASD(m_cameraPlace, timeDelta, true);
 
 	// Lass die Kugel rotieren:
 	m_spherePlace.RotateY(-time);

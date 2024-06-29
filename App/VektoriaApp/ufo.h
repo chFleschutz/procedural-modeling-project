@@ -33,11 +33,14 @@ public:
 
 		// Beam
 		float lowerBeamRadius = 2.0f;
-		float beamLength = 10.0f;
+		float beamLength = 15.0f;
 	};
 
 	UFO() = default;
 	~UFO() = default;
+
+	void setParameters(const Parameter& params) { m_params = params; }
+	const Parameter& parameters() const { return m_params; }
 
 	void initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos = {})
 	{
@@ -47,8 +50,9 @@ public:
 		// Hierachy
 		scene.AddPlacement(&m_place);
 		m_place.Translate(pos);
-		m_place.AddPlacement(&m_beamPlace);
-		m_place.AddPlacement(&m_bodyPlace);
+		m_place.AddPlacement(&m_ufoBase);
+		m_ufoBase.AddPlacement(&m_beamPlace);
+		m_ufoBase.AddPlacement(&m_bodyPlace);
 		m_bodyPlace.AddPlacement(&m_topPlace);
 		m_bodyPlace.AddPlacement(&m_outerCubesPlace);
 		m_bodyPlace.RotateDelta(1.0f, 0.0f, 1.0f, m_params.tiltAngle);
@@ -90,7 +94,7 @@ public:
 	void update(float timeDelta)
 	{
 		m_outerCubesPlace.RotateYDelta(m_params.outerRotationSpeed * timeDelta);
-		m_place.RotateYDelta(m_params.rotationSpeed * timeDelta);
+		m_ufoBase.RotateYDelta(m_params.rotationSpeed * timeDelta);
 	}
 
 	void setBodyMaterial(Vektoria::CMaterial* material) { m_bodyMat = material; }
@@ -102,6 +106,7 @@ private:
 	Parameter m_params;
 
 	Vektoria::CPlacement m_place;
+	Vektoria::CPlacement m_ufoBase;
 
 	Vektoria::CGeoSphere m_body;
 	Vektoria::CPlacement m_bodyPlace;

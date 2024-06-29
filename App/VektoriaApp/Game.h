@@ -74,8 +74,9 @@ private:
 
 	CPlacement m_cameraPlace;
 
-	CPlacement m_spherePlace;
 	CGeoSphere m_sphere;
+	CPlacement m_spherePlace;
+	CPlacement m_sphereRotator;
 
 	CPlacement m_skyPlace;
 	CGeoSphere m_skydome;

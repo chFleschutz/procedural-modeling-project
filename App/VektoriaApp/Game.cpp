@@ -10,11 +10,11 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_frame.AddDeviceKeyboard(&m_keyboard);
 	m_viewport.InitFull(&m_camera);
 
-	// Camera
-	m_camera.Init(THIRDPI);
-	m_cameraPlace.SetRotationSensitivity(1.5f);
-	m_cameraPlace.SetTranslationSensitivity(15.0f);
+	m_root.AddFrame(&m_frame);
+	m_root.AddScene(&m_scene);
+	m_frame.AddViewport(&m_viewport);
 
+	// Scene
 	m_scene.SetLightAmbient(Vektoria::CColor(1.0f, 0.9f, 0.9f));
 	m_scene.SetLightAmbient(0.1f);
 	m_scene.SetSkyOn(&m_cameraPlace);
@@ -28,7 +28,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_sphereMat.LoadPreset("HalloWeltLowRes");
 	m_sphereMat.AlterEnvPath("..//..//lib//Materials//EnvChurchLowRes//EnvChurchLowResD.jpg", false);
 	m_sphere.SetMaterial(&m_sphereMat);
-	
+
 	m_waterMat.LoadPreset("Blood");
 	m_root.AddMaterial(&m_waterMat);
 
@@ -41,39 +41,38 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_beamMat.SetTransparency(0.5f);
 
 	// Camera
-	m_cameraPlace.RotateXDelta(HALFPI / 3.0f);
-	m_cameraPlace.TranslateDelta(0.0f, 20.0f, 20.0f);
+	m_camera.Init(THIRDPI);
+	m_cameraPlace.SetRotationSensitivity(1.5f);
+	m_cameraPlace.SetTranslationSensitivity(15.0f);
+	m_cameraPlace.RotateXDelta(UM_DEG2RAD(42));
+	m_cameraPlace.TranslateDelta(0.0f, 40.0f, 40.0f);
+	m_cameraPlace.AddCamera(&m_camera);
+	m_scene.AddPlacement(&m_cameraPlace);
 
 	// Light
 	m_light.Init(CHVector(1.0f, 1.0f, 0.0f), CColor(1.0f, 0.7f, 0.7f));
-
-	// Sphere
-	m_sphere.Init(1.5F, &m_sphereMat, 50, 50);
+	m_scene.AddLightParallel(&m_light);
 
 	// Island
 	m_island.setWaterMaterial(&m_waterMat);
 	m_island.setGroundMaterial(&m_groundMat);
-	m_island.initialize(m_scene, 100.0f, 100.0f);
+	m_island.initialize(m_scene);
+
+	// Building
+	Vektoria::CHVector buildingPos(9.0f, 0.0f, 7.0f);
+	m_building.initialize(m_scene, buildingPos);
+	m_cameraPlace.TranslateDelta(buildingPos);
 
 	// UFO
 	m_ufo.setBeamMaterial(&m_beamMat);
-	m_ufo.initialize(m_scene, { 0.0f, 10.0f, 0.0f });
+	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 15.0f, 0.0f));
 
-	// Building
-	m_building.initialize(m_scene, { 0.0f, 1.0f, 0.0f });
-
-	// Scene Hierachy
-	m_root.AddFrame(&m_frame);
-	m_root.AddScene(&m_scene);
-	m_frame.AddViewport(&m_viewport);
-
+	// Sphere
+	m_sphere.Init(1.0f, &m_sphereMat, 50, 50);
+	m_sphereRotator.AddGeo(&m_sphere);
+	m_spherePlace.Translate(buildingPos + Vektoria::CHVector(0.0f, 1.0f, 0.0f));
+	m_spherePlace.AddPlacement(&m_sphereRotator);
 	m_scene.AddPlacement(&m_spherePlace);
-	m_scene.AddPlacement(&m_cameraPlace);
-	m_cameraPlace.AddCamera(&m_camera);
-
-	m_scene.AddLightParallel(&m_light);
-	m_spherePlace.AddGeo(&m_sphere);
-	m_scene.AddPlacement(&m_skyPlace);
 }
 
 void CGame::Tick(float time, float timeDelta)
@@ -81,12 +80,14 @@ void CGame::Tick(float time, float timeDelta)
 	// Camera movement
 	m_keyboard.PlaceWASD(m_cameraPlace, timeDelta, true);
 
-	// Lass die Kugel rotieren:
-	m_spherePlace.RotateY(-time);
-	m_spherePlace.RotateXDelta(0.8f * sinf(time * 0.2f));
+	// Rotate sphere
+	m_sphereRotator.RotateY(-time);
+	m_sphereRotator.RotateXDelta(0.8f * sinf(time * 0.2f));
 
+	// Rotate UFO
 	m_ufo.update(timeDelta);
 
+	// Render
 	m_root.Tick(timeDelta);
 }
 

@@ -80,6 +80,7 @@ public:
 		m_roofPlace.AddGeo(&m_roof);
 
 		// Hierachy
+		m_place.Translate(pos);
 		m_place.AddPlacement(&m_outerWallPlaceLeft);
 		m_place.AddPlacement(&m_outerWallPlaceRight);
 		m_place.AddPlacement(&m_innerWallPlaceLeft);

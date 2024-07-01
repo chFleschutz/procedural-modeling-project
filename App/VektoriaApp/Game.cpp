@@ -16,7 +16,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Scene
 	m_scene.SetLightAmbient(Vektoria::CColor(1.0f, 0.9f, 0.9f));
-	m_scene.SetLightAmbient(0.1f);
+	m_scene.SetLightAmbient(0.2f);
 	m_scene.SetSkyOn(&m_cameraPlace);
 	m_scene.SetSkyTimeOfDay(0.5f);
 	m_scene.SetSkyFlowOn(0.0f);

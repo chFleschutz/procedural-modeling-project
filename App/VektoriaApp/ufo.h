@@ -52,6 +52,9 @@ public:
 		float upperBeamRadius = 0.5f;
 		float lowerBeamRadius = 3.0f;
 		float beamLength = 20.0f;
+
+		Vektoria::CColor beamLightColor = Vektoria::CColor(0.0f, 0.0f, 1.0f);
+		float beamLightIntensity = 10.0f;
 	};
 
 	UFO() = default;
@@ -86,6 +89,7 @@ private:
 	Vektoria::CPlacement m_bodyPlace;
 	Vektoria::CPlacement m_cockpitPlace;
 	Vektoria::CPlacement m_beamPlace;
+	Vektoria::CPlacement m_beamLightPlace;
 	Vektoria::CPlacement m_ringsPlace;
 
 	// Geos
@@ -96,6 +100,8 @@ private:
 
 	Vektoria::COutline m_beamOutline;
 	Vektoria::CGeoSweep m_beamSweep;
+	Vektoria::CLightSpot m_beamLight;
+	Vektoria::CLightRadial m_beamLightRadial;
 
 	Vektoria::CGeoCube m_cube;
 

@@ -208,6 +208,15 @@ void UFO::createBeam()
 	m_beamSweep.InitOutline(m_beamOutline, beamMatPointers, m_beamMat);
 	m_beamSweep.Flip(); // Vertices from circle outline are in the wrong order
 	m_beamPlace.AddGeo(&m_beamSweep);
+
+	m_beamLight.Init(m_params.beamLightColor, UM_DEG2RAD(10.0f), UM_DEG2RAD(45.0f), m_params.beamLightIntensity);
+	m_beamLightPlace.AddLightSpot(&m_beamLight);
+	m_beamLightPlace.RotateX(-HALFPI); // Point downwards
+	m_beamPlace.AddPlacement(&m_beamLightPlace);
+
+	// TODO: Radial light intensity is not working (no falloff)
+	//m_beamLightRadial.Init(m_params.beamLightColor, 1.0f);
+	//m_beamLightPlace.AddLightRadial(&m_beamLightRadial);
 }
 
 void UFO::createRings()

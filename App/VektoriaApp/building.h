@@ -22,6 +22,8 @@ public:
 		float doorHeight = 2.5f;
 		int doorCount = 24; // Must be even
 
+		float outerfloorHeight = 0.3f;
+		float innerFloorHeight = 0.1f;
 	};
 
 	Building() = default;
@@ -32,6 +34,19 @@ public:
 
 	void initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos = {})
 	{
+		// Floor
+		float innerRadius = m_params.baseOuterRadius - m_params.baseThickness;
+		m_buildingFloor.InitStraight(innerRadius, m_params.baseOuterRadius, m_params.outerfloorHeight, m_buildingFloorMat, 100);
+		m_buildingFloorPlace.AddGeo(&m_buildingFloor);
+		m_buildingFloorPlace.TranslateY(0.5f * m_params.outerfloorHeight);
+
+		m_innerFloor.Init(innerRadius, m_params.innerFloorHeight, m_innerFloorMat, 100);
+		m_innerFloorPlace.AddGeo(&m_innerFloor);
+		m_innerFloorPlace.TranslateY(0.5f * m_params.innerFloorHeight);
+
+		// Walls
+		m_baseWallPlace.TranslateY(m_params.outerfloorHeight);
+
 		// Door	
 		m_door.InitOvalArc(m_params.doorWidth, m_params.doorHeight, true);
 
@@ -46,7 +61,7 @@ public:
 		}
 
 		m_baseWall.SetRoundingX(PI, m_params.roundingResolution);
-		m_baseWall.Init(halfWallLength, m_params.baseHeight, m_params.wallThickness, nullptr,
+		m_baseWall.Init(halfWallLength, m_params.baseHeight, m_params.wallThickness, m_wallMat,
 			false, false, true, false, true, true);
 
 		// Outer Wall
@@ -69,40 +84,62 @@ public:
 		float midRadius = m_params.baseOuterRadius - (0.5f * m_params.baseThickness);
 
 		m_roof.SetRoundingY(PI, m_params.roundingResolution);
-		m_roof.Init(1.0f, roofCircumference + 0.01f, m_params.wallThickness + 0.01f, nullptr,
+		m_roof.Init(1.0f, roofCircumference + 0.01f, m_params.wallThickness + 0.01f, m_roofMat,
 			false, false, true, true, true, true);
 
 		m_roof.Subdivide(0.01f);
 		m_roof.BendX(midRadius, TWOPI);
-		
+
 		m_roofPlace.TranslateY(m_params.baseHeight - 0.001f);
 		m_roofPlace.RotateYDelta(PI);
 		m_roofPlace.AddGeo(&m_roof);
 
 		// Hierachy
-		m_place.Translate(pos);
-		m_place.AddPlacement(&m_outerWallPlaceLeft);
-		m_place.AddPlacement(&m_outerWallPlaceRight);
-		m_place.AddPlacement(&m_innerWallPlaceLeft);
-		m_place.AddPlacement(&m_innerWallPlaceRight);
-		m_place.AddPlacement(&m_roofPlace);
 		scene.AddPlacement(&m_place);
+		m_place.Translate(pos);
+		m_place.AddPlacement(&m_baseFloorPlace);
+
+		m_baseFloorPlace.AddPlacement(&m_buildingFloorPlace);
+		m_baseFloorPlace.AddPlacement(&m_innerFloorPlace);
+		m_baseFloorPlace.AddPlacement(&m_baseWallPlace);
+
+		m_baseWallPlace.AddPlacement(&m_outerWallPlaceLeft);
+		m_baseWallPlace.AddPlacement(&m_outerWallPlaceRight);
+		m_baseWallPlace.AddPlacement(&m_innerWallPlaceLeft);
+		m_baseWallPlace.AddPlacement(&m_innerWallPlaceRight);
+		m_baseWallPlace.AddPlacement(&m_roofPlace);
 	}
 
 private:
 	Building::Parameters m_params;
+
+	// Placements
 	Vektoria::CPlacement m_place;
 
-	Vektoria::CGeoWall m_baseWall;
+	Vektoria::CPlacement m_baseFloorPlace;
+	Vektoria::CPlacement m_buildingFloorPlace;
+	Vektoria::CPlacement m_innerFloorPlace;
+
+	Vektoria::CPlacement m_baseWallPlace;
 	Vektoria::CPlacement m_outerWallPlaceLeft;
 	Vektoria::CPlacement m_outerWallPlaceRight;
 	Vektoria::CPlacement m_innerWallPlaceLeft;
 	Vektoria::CPlacement m_innerWallPlaceRight;
 
-	Vektoria::CGeoWall m_roof;
 	Vektoria::CPlacement m_roofPlace;
 
-	Vektoria::CGeoWindow m_door;
+	// Geos
+	Vektoria::CGeoTube m_buildingFloor;
+	Vektoria::CGeoCylinder m_innerFloor;
 
-	Vektoria::CGeoCube m_testCube;
+	Vektoria::CGeoWindow m_door;
+	Vektoria::CGeoWall m_baseWall;
+
+	Vektoria::CGeoWall m_roof;
+
+	// Materials
+	Vektoria::CMaterial* m_buildingFloorMat = nullptr;
+	Vektoria::CMaterial* m_innerFloorMat = nullptr;
+	Vektoria::CMaterial* m_wallMat = nullptr;
+	Vektoria::CMaterial* m_roofMat = nullptr;
 };

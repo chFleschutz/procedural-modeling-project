@@ -24,6 +24,7 @@
 #include "island.h"
 #include "ufo.h"
 #include "building.h"
+#include "road.h"
 
 using namespace Vektoria;
 
@@ -84,6 +85,7 @@ private:
 	Island m_island;
 	UFO m_ufo;
 	Building m_building;
+	Road m_road;
 };
 
 

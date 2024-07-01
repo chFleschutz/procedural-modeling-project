@@ -77,6 +77,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_spherePlace.Translate(buildingPos + Vektoria::CHVector(0.0f, 1.0f, 0.0f));
 	m_spherePlace.AddPlacement(&m_sphereRotator);
 	m_scene.AddPlacement(&m_spherePlace);
+
+	// Road
+	m_road.initialize(m_scene, buildingPos + Vektoria::CHVector{ 0.0f, 1.0f, 0.0f });
 }
 
 void CGame::Tick(float time, float timeDelta)

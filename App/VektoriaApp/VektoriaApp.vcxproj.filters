@@ -33,6 +33,9 @@
     <ClInclude Include="building.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="road.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">

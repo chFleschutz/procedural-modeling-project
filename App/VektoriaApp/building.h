@@ -18,9 +18,13 @@ public:
 		float roofHeight = 2.0f;
 		float roundingResolution = 0.1f;
 
+		int doorCount = 24; // Must be even
 		float doorWidth = 2.0f;
 		float doorHeight = 2.5f;
-		int doorCount = 24; // Must be even
+
+		float doorFrameWidth = 0.1f; // Must be less than 1
+		float doorFrameHeight = 0.05f; // Must be less than 1
+		float doorFrameThickness = 0.5f; // Must be less than 1
 
 		float outerfloorHeight = 0.3f;
 		float innerFloorHeight = 0.1f;
@@ -48,6 +52,17 @@ public:
 		m_baseWallPlace.TranslateY(m_params.outerfloorHeight);
 
 		// Door	
+		m_innerDoor.InitOvalArc(1.0f - m_params.doorFrameWidth, 1.0f - m_params.doorFrameHeight, false);
+
+		m_doorFrame.AddGeoWindow(&m_innerDoor, 0.5f * m_params.doorFrameWidth, 0.0f);
+		m_doorFrame.Init(1.0f, 1.0f, m_params.doorFrameThickness, m_doorFrameMat, 
+			false, false, false, false, true, true);
+
+		Vektoria::CHMat doorFrameMat;
+		doorFrameMat.TranslateZ(0.5f * m_params.wallThickness);
+		m_doorFrame.Transform(doorFrameMat);
+
+		m_door.AddGeoWall(&m_doorFrame);
 		m_door.InitOvalArc(m_params.doorWidth, m_params.doorHeight, true);
 
 		// Wall Geo
@@ -132,6 +147,9 @@ private:
 	Vektoria::CGeoTube m_buildingFloor;
 	Vektoria::CGeoCylinder m_innerFloor;
 
+	Vektoria::CGeoWall m_doorFrame;
+	Vektoria::CGeoWindow m_innerDoor;
+
 	Vektoria::CGeoWindow m_door;
 	Vektoria::CGeoWall m_baseWall;
 
@@ -142,4 +160,5 @@ private:
 	Vektoria::CMaterial* m_innerFloorMat = nullptr;
 	Vektoria::CMaterial* m_wallMat = nullptr;
 	Vektoria::CMaterial* m_roofMat = nullptr;
+	Vektoria::CMaterial* m_doorFrameMat = nullptr;
 };

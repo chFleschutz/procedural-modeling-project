@@ -65,7 +65,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// UFO
 	m_ufo.setBeamMaterial(&m_beamMat);
-	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 15.0f, 0.0f));
+	m_ufo.addRing(UFO::Ring::Config{ 20, 12.0f, 0.0f, 2.0f, 1.5f });
+	m_ufo.addRing(UFO::Ring::Config{ 30, 8.0f, 0.4f, 0.5f, 1.0f });
+	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 20.0f, 0.0f));
 
 	// Sphere
 	m_sphere.Init(1.0f, &m_sphereMat, 50, 50);

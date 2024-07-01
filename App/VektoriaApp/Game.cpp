@@ -44,8 +44,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_camera.Init(THIRDPI);
 	m_cameraPlace.SetRotationSensitivity(1.5f);
 	m_cameraPlace.SetTranslationSensitivity(15.0f);
-	m_cameraPlace.RotateXDelta(UM_DEG2RAD(42));
-	m_cameraPlace.TranslateDelta(0.0f, 40.0f, 40.0f);
+	m_cameraPlace.RotateXDelta(UM_DEG2RAD(38));
+	m_cameraPlace.TranslateDelta(0.0f, 50.0f, 50.0f);
 	m_cameraPlace.AddCamera(&m_camera);
 	m_scene.AddPlacement(&m_cameraPlace);
 
@@ -65,8 +65,10 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// UFO
 	m_ufo.setBeamMaterial(&m_beamMat);
-	m_ufo.addRing(UFO::Ring::Config{ 20, 12.0f, 0.0f, 2.0f, 1.5f });
+	m_ufo.addRing(UFO::Ring::Config{ 10, 5.0f, 1.2f, 1.5f, 1.0f });
 	m_ufo.addRing(UFO::Ring::Config{ 30, 8.0f, 0.4f, 0.5f, 1.0f });
+	m_ufo.addRing(UFO::Ring::Config{ 20, 12.0f, 0.0f, 2.0f, 1.5f });
+	m_ufo.addRing(UFO::Ring::Config{ 20, 6.0f, -1.5f, -1.0f, 1.0f });
 	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 20.0f, 0.0f));
 
 	// Sphere

@@ -2,8 +2,7 @@
 
 void UFO::initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos)
 {
-	// UFO
-	createUfoBody();
+	createUfo();
 	createBeam();
 	createRings();
 
@@ -14,6 +13,7 @@ void UFO::initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos)
 	m_ufoRotator.AddPlacement(&m_beamPlace);
 	m_ufoRotator.AddPlacement(&m_ufoBase);
 	m_ufoBase.AddPlacement(&m_bodyPlace);
+	m_ufoBase.AddPlacement(&m_cockpitPlace);
 	m_ufoBase.AddPlacement(&m_ringsPlace);
 	m_ufoBase.RotateDelta(1.0f, 0.0f, 1.0f, m_params.tiltAngle);
 }
@@ -28,15 +28,12 @@ void UFO::update(float timeDelta)
 	}
 }
 
-void UFO::createUfoBody()
+void UFO::createUfo()
 {
 	// Outline for the UFO body
 	// { height, radius }
 	std::vector<Vektoria::C2dVector> points{
-		{ 0.988170f, 0.000000f},
-		{ 0.988170f, 0.719112f},
-		{ 0.988170f, 0.722036f},
-		{ 0.961919f, 0.722036f},
+		{ 0.961919f, 0.000000f},
 		{ 0.961919f, 0.752423f},
 		{ 1.000000f, 0.752423f},
 		{ 1.000000f, 0.753580f},
@@ -184,6 +181,16 @@ void UFO::createUfoBody()
 	m_bodyPlace.AddGeo(&m_bodySweep);
 	m_bodyPlace.RotateZ(HALFPI);
 	m_bodyPlace.ScaleDelta(widthScale, heightScale, widthScale);
+
+	// Cockpit
+	m_cockpit.Init(m_params.cockpitRadius, m_cockpitMat, m_params.cockpitSubdivisions, m_params.cockpitSubdivisions);
+
+	Vektoria::CHMat cockpitTransform;
+	cockpitTransform.ScaleY(m_params.cockpitHeight / m_params.cockpitRadius);
+	m_cockpit.Transform(cockpitTransform);
+
+	m_cockpitPlace.AddGeo(&m_cockpit);
+	m_cockpitPlace.TranslateYDelta((0.5f * m_params.ufoHeight) + m_params.cockpitHeightOffset);
 }
 
 void UFO::createBeam()
@@ -206,7 +213,7 @@ void UFO::createBeam()
 void UFO::createRings()
 {
 	// dummy geo
-	m_cube.Init(m_params.outerCubeSize, m_outerCubeMat);
+	m_cube.Init(0.1f, nullptr);
 
 	for (auto& ring : m_rings)
 	{

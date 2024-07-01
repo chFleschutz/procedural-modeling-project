@@ -2,6 +2,7 @@
 
 #include "Vektoria/GeoBezierTable.h"
 #include "Vektoria/GeoCube.h"
+#include "Vektoria/GeoSphere.h"
 #include "Vektoria/GeoSweep.h"
 #include "Vektoria/Placement.h"
 #include "Vektoria/Scene.h"
@@ -42,6 +43,11 @@ public:
 		float ufoHeight = 4.0f;
 		int ufoSweepSteps = 100;
 
+		float cockpitRadius = 1.5f;
+		float cockpitHeight = 1.0f;
+		float cockpitHeightOffset = -0.5f;
+		float cockpitSubdivisions = 32;
+
 		// Beam
 		float upperBeamRadius = 0.5f;
 		float lowerBeamRadius = 3.0f;
@@ -62,11 +68,10 @@ public:
 	// Materials
 	void setBodyMaterial(Vektoria::CMaterial* material) { m_bodyMat = material; }
 	void setCockPitMaterial(Vektoria::CMaterial* material) { m_cockpitMat = material; }
-	void setOuterCubeMaterial(Vektoria::CMaterial* material) { m_outerCubeMat = material; }
 	void setBeamMaterial(Vektoria::CMaterial* material) { m_beamMat = material; }
 
 private:
-	void createUfoBody();
+	void createUfo();
 	void createBeam();
 	void createRings();
 
@@ -79,12 +84,15 @@ private:
 	Vektoria::CPlacement m_ufoRotator;
 	Vektoria::CPlacement m_ufoBase;
 	Vektoria::CPlacement m_bodyPlace;
+	Vektoria::CPlacement m_cockpitPlace;
 	Vektoria::CPlacement m_beamPlace;
 	Vektoria::CPlacement m_ringsPlace;
 
 	// Geos
 	Vektoria::CGeoSweep m_bodySweep;
 	Vektoria::COutline m_bodyOutline;
+
+	Vektoria::CGeoSphere m_cockpit;
 
 	Vektoria::COutline m_beamOutline;
 	Vektoria::CGeoSweep m_beamSweep;
@@ -94,6 +102,5 @@ private:
 	// Materials
 	Vektoria::CMaterial* m_bodyMat = nullptr;
 	Vektoria::CMaterial* m_cockpitMat = nullptr;
-	Vektoria::CMaterial* m_outerCubeMat = nullptr;
 	Vektoria::CMaterial* m_beamMat = nullptr;
 };

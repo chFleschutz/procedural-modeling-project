@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include <cassert>
 
 void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CSplash* psplash)
 {
@@ -22,23 +23,33 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_scene.SetSkyFlowOn(0.0f);
 
 	// Materials
-	m_skyMat.LoadPreset("EnvChurchLowRes");
+	assert(m_skyMat.LoadPreset("EnvChurchLowRes"));
 	m_root.AddMaterial(&m_skyMat);
 
-	m_sphereMat.LoadPreset("HalloWeltLowRes");
+	assert(m_sphereMat.LoadPreset("HalloWeltLowRes"));
 	m_sphereMat.AlterEnvPath("..//..//lib//Materials//EnvChurchLowRes//EnvChurchLowResD.jpg", false);
 	m_sphere.SetMaterial(&m_sphereMat);
 
-	m_waterMat.LoadPreset("Blood");
+	assert(m_waterMat.LoadPreset("Blood"));
 	m_root.AddMaterial(&m_waterMat);
 
-	m_groundMat.LoadPreset("RockSnowy");
+	assert(m_groundMat.LoadPreset("RockSnowy"));
+	m_groundMat.SetHeightStrength(0.0f);
 	m_root.AddMaterial(&m_groundMat);
 
-	m_beamMat.LoadPreset("PhongBlue");
+	assert(m_beamMat.LoadPreset("PhongBlue"));
 	m_beamMat.SetShadingOff();
 	m_beamMat.SetShadowsOff();
 	m_beamMat.SetTransparency(0.5f);
+
+	assert(m_roadMaterial.LoadPreset("WayRoad2Cracked"));
+	m_root.AddMaterial(&m_roadMaterial);
+
+	assert(m_crossingMaterial.LoadPreset("CrossingRoad2Cracked"));
+	m_root.AddMaterial(&m_crossingMaterial);
+
+	assert(m_brickMat.LoadPreset("BricksClinker"));
+	m_root.AddMaterial(&m_brickMat);
 
 	// Camera
 	m_camera.Init(THIRDPI);
@@ -60,6 +71,8 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Building
 	Vektoria::CHVector buildingPos(9.0f, 0.0f, 7.0f);
+	m_building.setWallMaterial(&m_brickMat);
+	m_building.setRoofMaterial(&m_brickMat);
 	m_building.initialize(m_scene, buildingPos);
 	m_cameraPlace.TranslateDelta(buildingPos);
 
@@ -79,11 +92,29 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_scene.AddPlacement(&m_spherePlace);
 
 	// Road
+	m_road.setAreaMaterial(&m_groundMat);
+	m_road.setRoadMaterial(&m_roadMaterial);
+	m_road.setCrossingMaterial(&m_crossingMaterial);
 	m_road.initialize(m_scene, buildingPos + Vektoria::CHVector{ 0.0f, 1.0f, 0.0f });
 }
 
 void CGame::Tick(float time, float timeDelta)
 {
+	if (m_keyboard.KeyDown(DIK_0))
+		m_viewport.StyleOff();
+	else if (m_keyboard.KeyDown(DIK_1))
+		m_viewport.StylePainting();
+	else if (m_keyboard.KeyDown(DIK_2))
+		m_viewport.StylePencil();
+	else if (m_keyboard.KeyDown(DIK_3))
+		m_viewport.StyleCartoon();
+	else if (m_keyboard.KeyDown(DIK_4))
+		m_viewport.StylePurpleHaze();
+	else if (m_keyboard.KeyDown(DIK_5))
+		m_viewport.StyleToon();
+	else if (m_keyboard.KeyDown(DIK_6))
+		m_viewport.StylePopArt();
+
 	// Camera movement
 	m_keyboard.PlaceWASD(m_cameraPlace, timeDelta, true);
 

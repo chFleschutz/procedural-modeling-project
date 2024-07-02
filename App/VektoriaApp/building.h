@@ -26,8 +26,8 @@ public:
 		float doorFrameHeight = 0.05f; // Must be less than 1
 		float doorFrameThickness = 0.5f; // Must be less than 1
 
-		float outerfloorHeight = 0.3f;
-		float innerFloorHeight = 0.1f;
+		float outerfloorHeight = 1.5f;
+		float innerFloorHeight = 1.3f;
 	};
 
 	Building() = default;
@@ -35,6 +35,12 @@ public:
 
 	void setParameters(const Building::Parameters& params) { m_params = params; }
 	const Building::Parameters& parameters() const { return m_params; }
+
+	void setOuterFloorMaterial(Vektoria::CMaterial* mat) { m_buildingFloorMat = mat; }
+	void setInnerFloorMaterial(Vektoria::CMaterial* mat) { m_innerFloorMat = mat; }
+	void setWallMaterial(Vektoria::CMaterial* mat) { m_wallMat = mat; }
+	void setRoofMaterial(Vektoria::CMaterial* mat) { m_roofMat = mat; }
+	void setDoorFrameMaterial(Vektoria::CMaterial* mat) { m_doorFrameMat = mat; }
 
 	void initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos = {})
 	{
@@ -46,10 +52,9 @@ public:
 
 		m_innerFloor.Init(innerRadius, m_params.innerFloorHeight, m_innerFloorMat, 100);
 		m_innerFloorPlace.AddGeo(&m_innerFloor);
-		m_innerFloorPlace.TranslateY(0.5f * m_params.innerFloorHeight);
 
 		// Walls
-		m_baseWallPlace.TranslateY(m_params.outerfloorHeight);
+		m_baseWallPlace.TranslateY(m_params.outerfloorHeight - 0.001f);
 
 		// Door	
 		m_innerDoor.InitOvalArc(1.0f - m_params.doorFrameWidth, 1.0f - m_params.doorFrameHeight, false);
@@ -76,6 +81,7 @@ public:
 		}
 
 		m_baseWall.SetRoundingX(PI, m_params.roundingResolution);
+		m_baseWall.SetTextureRepeat(10.0f, 10.0f);
 		m_baseWall.Init(halfWallLength, m_params.baseHeight, m_params.wallThickness, m_wallMat,
 			false, false, true, false, true, true);
 
@@ -99,6 +105,7 @@ public:
 		float midRadius = m_params.baseOuterRadius - (0.5f * m_params.baseThickness);
 
 		m_roof.SetRoundingY(PI, m_params.roundingResolution);
+		m_roof.SetTextureRepeat(20.0f, 10.0f);
 		m_roof.Init(1.0f, roofCircumference + 0.01f, m_params.wallThickness + 0.01f, m_roofMat,
 			false, false, true, true, true, true);
 

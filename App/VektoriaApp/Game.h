@@ -72,6 +72,9 @@ private:
 	CMaterial m_sphereMat;
 	CMaterial m_skyMat;
 	CMaterial m_beamMat;
+	CMaterial m_roadMaterial;
+	CMaterial m_crossingMaterial;
+	CMaterial m_brickMat;
 
 	CPlacement m_cameraPlace;
 

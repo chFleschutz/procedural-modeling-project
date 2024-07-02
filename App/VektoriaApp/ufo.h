@@ -54,7 +54,7 @@ public:
 		float beamLength = 20.0f;
 
 		Vektoria::CColor beamLightColor = Vektoria::CColor(0.0f, 0.0f, 1.0f);
-		float beamLightIntensity = 10.0f;
+		float beamLightIntensity = 4.0f;
 	};
 
 	UFO() = default;

@@ -75,6 +75,8 @@ private:
 	CMaterial m_roadMaterial;
 	CMaterial m_crossingMaterial;
 	CMaterial m_brickMat;
+	CMaterial m_ufoCockpitMat;
+	CMaterial m_marbleMat;
 
 	CPlacement m_cameraPlace;
 

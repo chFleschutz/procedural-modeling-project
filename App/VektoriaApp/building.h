@@ -46,10 +46,12 @@ public:
 	{
 		// Floor
 		float innerRadius = m_params.baseOuterRadius - m_params.baseThickness;
+		m_buildingFloor.SetTextureRepeat(10.0f, 10.0f);
 		m_buildingFloor.InitStraight(innerRadius, m_params.baseOuterRadius, m_params.outerfloorHeight, m_buildingFloorMat, 100);
 		m_buildingFloorPlace.AddGeo(&m_buildingFloor);
 		m_buildingFloorPlace.TranslateY(0.5f * m_params.outerfloorHeight);
 
+		m_innerFloor.SetTextureRepeat(20.0f, 20.0f);
 		m_innerFloor.Init(innerRadius, m_params.innerFloorHeight, m_innerFloorMat, 100);
 		m_innerFloorPlace.AddGeo(&m_innerFloor);
 

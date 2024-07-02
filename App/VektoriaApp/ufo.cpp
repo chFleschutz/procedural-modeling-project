@@ -214,15 +214,19 @@ void UFO::createBeam()
 	m_beamLightPlace.RotateX(-HALFPI); // Point downwards
 	m_beamPlace.AddPlacement(&m_beamLightPlace);
 
-	// TODO: Radial light intensity is not working (no falloff)
-	//m_beamLightRadial.Init(m_params.beamLightColor, 1.0f);
-	//m_beamLightPlace.AddLightRadial(&m_beamLightRadial);
+	m_beamLightRadial.Init(m_params.beamLightColor * 0.01f, 1.0f);
+	m_beamLightPlace.AddLightRadial(&m_beamLightRadial);
 }
 
 void UFO::createRings()
 {
 	// dummy geo
 	m_cube.Init(0.1f, nullptr);
+	auto sphere = new Vektoria::CGeoSphere();
+	sphere->Init(0.2f, nullptr, 32, 32);
+	Vektoria::CHMat sphereTransform;
+	sphereTransform.Scale(1.0f, 0.5f, 1.0f);
+	sphere->Transform(sphereTransform);
 
 	for (auto& ring : m_rings)
 	{
@@ -231,7 +235,7 @@ void UFO::createRings()
 		for (int i = 0; i < objectCount; i++)
 		{
 			auto& objectPlace = ring.objectPlaces[i];
-			objectPlace.AddGeo(&m_cube); // TODO: Add different geos
+			objectPlace.AddGeo(sphere); // TODO: Add different geos
 			objectPlace.Scale(ring.config.objectScale);
 			objectPlace.TranslateDelta(ring.config.orbitRadius, ring.config.orbitHeight, 0.0f);
 			objectPlace.RotateYDelta((TWOPI / objectCount) * i);

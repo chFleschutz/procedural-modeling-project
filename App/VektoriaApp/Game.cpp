@@ -51,6 +51,12 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	assert(m_brickMat.LoadPreset("BricksClinker"));
 	m_root.AddMaterial(&m_brickMat);
 
+	assert(m_ufoCockpitMat.LoadPreset("EyeAlien"));
+	m_root.AddMaterial(&m_ufoCockpitMat);
+
+	assert(m_marbleMat.LoadPreset("MarbleWhite"));
+	m_root.AddMaterial(&m_marbleMat);
+
 	// Camera
 	m_camera.Init(THIRDPI);
 	m_cameraPlace.SetRotationSensitivity(1.5f);
@@ -73,11 +79,14 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	Vektoria::CHVector buildingPos(9.0f, 0.0f, 7.0f);
 	m_building.setWallMaterial(&m_brickMat);
 	m_building.setRoofMaterial(&m_brickMat);
+	m_building.setOuterFloorMaterial(&m_marbleMat);
+	m_building.setInnerFloorMaterial(&m_marbleMat);
 	m_building.initialize(m_scene, buildingPos);
 	m_cameraPlace.TranslateDelta(buildingPos);
 
 	// UFO
 	m_ufo.setBeamMaterial(&m_beamMat);
+	m_ufo.setCockPitMaterial(&m_ufoCockpitMat);
 	m_ufo.addRing(UFO::Ring::Config{ 10, 5.0f, 1.2f, 1.5f, 1.0f });
 	m_ufo.addRing(UFO::Ring::Config{ 30, 8.0f, 0.4f, 0.5f, 1.0f });
 	m_ufo.addRing(UFO::Ring::Config{ 20, 12.0f, 0.0f, 2.0f, 1.5f });

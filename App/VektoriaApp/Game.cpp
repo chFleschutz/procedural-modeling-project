@@ -81,7 +81,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_building.setRoofMaterial(&m_brickMat);
 	m_building.setOuterFloorMaterial(&m_marbleMat);
 	m_building.setInnerFloorMaterial(&m_marbleMat);
-	m_building.initialize(m_scene, buildingPos);
+	m_building.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 2.0f, 0.0f));
 	m_cameraPlace.TranslateDelta(buildingPos);
 
 	// UFO
@@ -104,7 +104,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_road.setAreaMaterial(&m_groundMat);
 	m_road.setRoadMaterial(&m_roadMaterial);
 	m_road.setCrossingMaterial(&m_crossingMaterial);
-	m_road.initialize(m_scene, buildingPos + Vektoria::CHVector{ 0.0f, 1.0f, 0.0f });
+	m_road.initialize(m_scene, buildingPos + Vektoria::CHVector{ 0.0f, 0.2f, 0.0f });
 }
 
 void CGame::Tick(float time, float timeDelta)

@@ -26,8 +26,8 @@ public:
 		float doorFrameHeight = 0.05f; // Must be less than 1
 		float doorFrameThickness = 0.5f; // Must be less than 1
 
-		float outerfloorHeight = 1.5f;
-		float innerFloorHeight = 1.3f;
+		float outerfloorHeight = 0.5f;
+		float innerFloorHeight = 0.3f;
 	};
 
 	Building() = default;
@@ -74,7 +74,7 @@ public:
 
 		// Wall Geo
 		float halfWallLength = m_params.baseOuterRadius * PI; // From: Circumference = 2 * pi * r
-		int halfDoorCount = 0.5f * m_params.doorCount;
+		int halfDoorCount = static_cast<int>(0.5f * m_params.doorCount);
 
 		for (int i = 0; i < halfDoorCount; i++)
 		{

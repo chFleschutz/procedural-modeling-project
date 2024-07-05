@@ -10,11 +10,15 @@ public:
 	{
 		float roundaboutRadius = 20.0f;
 
-		float innerHillRadius = 21.0f; 
+		float innerHillRadius = 21.0f;
 		float outerHillRadius = 25.0f;
 		float hillHeight = 2.0f;
 
 		int quarterCircleSteps = 32;
+
+		float signOffsetx = 1.0f;
+		float signOffsetz = 4.5f;
+		float signScale = 0.75f;
 	};
 
 	Road() = default;
@@ -116,6 +120,60 @@ public:
 		m_infra.Init();
 		m_infra.TranslateY(m_params.hillHeight);
 		m_place.AddPlacement(&m_infra);
+
+		// Signs
+		m_sign.InitDStop();
+
+		float xOffset = m_params.signOffsetx;
+		float zOffset = m_params.signOffsetz;
+		m_signPlace1.AddGeo(&m_sign);
+		m_signPlace1.Scale(m_params.signScale);
+		m_signPlace1.RotateYDelta(UM_DEG2RAD(315.0f));
+		m_signPlace1.TranslateDelta(radius - xOffset, 0.0f, zOffset);
+		m_infra.AddPlacement(&m_signPlace1);
+
+		m_signPlace2.AddGeo(&m_sign);
+		m_signPlace2.Scale(m_params.signScale);
+		m_signPlace2.RotateYDelta(UM_DEG2RAD(225.0f));
+		m_signPlace2.TranslateDelta(-zOffset, 0.0f, radius - xOffset);
+		m_infra.AddPlacement(&m_signPlace2);
+
+		m_signPlace3.AddGeo(&m_sign);
+		m_signPlace3.Scale(m_params.signScale);
+		m_signPlace3.RotateYDelta(UM_DEG2RAD(135.0f));
+		m_signPlace3.TranslateDelta(-radius + xOffset, 0.0f, -zOffset);
+		m_infra.AddPlacement(&m_signPlace3);
+
+		m_signPlace4.AddGeo(&m_sign);
+		m_signPlace4.Scale(m_params.signScale);
+		m_signPlace4.RotateYDelta(UM_DEG2RAD(45.0f));
+		m_signPlace4.TranslateDelta(zOffset, 0.0f, -radius + xOffset);
+		m_infra.AddPlacement(&m_signPlace4);
+
+
+		m_signPlace5.AddGeo(&m_sign);
+		m_signPlace5.Scale(m_params.signScale);
+		m_signPlace5.RotateYDelta(UM_DEG2RAD(225.0f));
+		m_signPlace5.TranslateDelta(radius - zOffset, 0.0f, -xOffset);
+		m_infra.AddPlacement(&m_signPlace5);
+
+		m_signPlace6.AddGeo(&m_sign);
+		m_signPlace6.Scale(m_params.signScale);
+		m_signPlace6.RotateYDelta(UM_DEG2RAD(135.0f));
+		m_signPlace6.TranslateDelta(xOffset, 0.0f, radius - zOffset);
+		m_infra.AddPlacement(&m_signPlace6);
+
+		m_signPlace7.AddGeo(&m_sign);
+		m_signPlace7.Scale(m_params.signScale);
+		m_signPlace7.RotateYDelta(UM_DEG2RAD(45.0f));
+		m_signPlace7.TranslateDelta(-radius + zOffset, 0.0f, xOffset);
+		m_infra.AddPlacement(&m_signPlace7);
+
+		m_signPlace8.AddGeo(&m_sign);
+		m_signPlace8.Scale(m_params.signScale);
+		m_signPlace8.RotateYDelta(UM_DEG2RAD(315.0f));
+		m_signPlace8.TranslateDelta(-xOffset, 0.0f, -radius + zOffset);
+		m_infra.AddPlacement(&m_signPlace8);
 	}
 
 private:
@@ -139,6 +197,17 @@ private:
 	Vektoria::CPlacement m_hillPlace;
 	Vektoria::CGeoSweep m_hillSweep;
 	Vektoria::COutline m_hillOutline;
+
+	Vektoria::CGeoSign m_sign;
+	Vektoria::CPlacement m_signPlace1;
+	Vektoria::CPlacement m_signPlace2;
+	Vektoria::CPlacement m_signPlace3;
+	Vektoria::CPlacement m_signPlace4;
+
+	Vektoria::CPlacement m_signPlace5;
+	Vektoria::CPlacement m_signPlace6;
+	Vektoria::CPlacement m_signPlace7;
+	Vektoria::CPlacement m_signPlace8;	
 
 	// Materials
 	Vektoria::CMaterial* m_roadMat = nullptr;

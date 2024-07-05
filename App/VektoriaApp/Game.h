@@ -60,11 +60,22 @@ private:
 	CRoot m_root;
 	CFrame m_frame;
 	CViewport m_viewport;
-	CLightParallel m_light;
-	CScene m_scene;
-	CCamera m_camera;
-
 	CDeviceKeyboard m_keyboard;
+	
+	CScene m_scene;
+	CLightParallel m_light;
+
+	CCamera m_camera;
+	CPlacement m_cameraPlace;
+
+	CGeoSphere m_sphere;
+	CPlacement m_spherePlace;
+	CPlacement m_sphereRotator;
+
+	UFO m_ufo;				// Special Object
+	Building m_building;	// Building
+	Island m_island;		// Terrain 
+	Road m_road;			// Infrastructure
 
 	// Materials
 	CMaterial m_waterMat;
@@ -77,20 +88,6 @@ private:
 	CMaterial m_brickMat;
 	CMaterial m_ufoCockpitMat;
 	CMaterial m_marbleMat;
-
-	CPlacement m_cameraPlace;
-
-	CGeoSphere m_sphere;
-	CPlacement m_spherePlace;
-	CPlacement m_sphereRotator;
-
-	CPlacement m_skyPlace;
-	CGeoSphere m_skydome;
-
-	Island m_island;
-	UFO m_ufo;
-	Building m_building;
-	Road m_road;
 };
 
 

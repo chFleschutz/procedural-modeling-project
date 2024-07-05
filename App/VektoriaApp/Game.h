@@ -88,6 +88,12 @@ private:
 	CMaterial m_brickMat;
 	CMaterial m_ufoCockpitMat;
 	CMaterial m_marbleMat;
+
+	CMaterial m_brushedMetalMat;
+	CTexture m_brushedMetalAlbedoTexture;
+	CTexture m_brushedMetalNormalTexture;
+	CImage m_brushedMetalAlbedo;
+	CImage m_brushedMetalNormal;
 };
 
 

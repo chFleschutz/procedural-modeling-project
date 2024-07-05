@@ -57,6 +57,14 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	assert(m_marbleMat.LoadPreset("MarbleWhite"));
 	m_root.AddMaterial(&m_marbleMat);
 
+	m_brushedMetalAlbedo.Init("textures/brushed-metal/brushed-metal-albedo.jpg");
+	m_brushedMetalNormal.Init("textures/brushed-metal/brushed-metal-normal.jpg");
+	m_brushedMetalAlbedoTexture.Init(&m_brushedMetalAlbedo, eKindTexture_Diffuse);
+	m_brushedMetalNormalTexture.Init(&m_brushedMetalNormal, eKindTexture_Bump);
+	m_brushedMetalMat.SetTextureDiffuse(&m_brushedMetalAlbedoTexture);
+	m_brushedMetalMat.SetTextureBump(&m_brushedMetalNormalTexture);
+	m_root.AddMaterial(&m_brushedMetalMat);
+
 	// Camera
 	m_camera.Init(THIRDPI);
 	m_cameraPlace.SetRotationSensitivity(1.5f);
@@ -87,6 +95,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	// UFO
 	m_ufo.setBeamMaterial(&m_beamMat);
 	m_ufo.setCockPitMaterial(&m_ufoCockpitMat);
+	m_ufo.setBodyMaterial(&m_brushedMetalMat);
 	m_ufo.addRing(UFO::Ring::Config{ 10, 5.0f, 1.2f, 1.5f, 1.0f });
 	m_ufo.addRing(UFO::Ring::Config{ 30, 8.0f, 0.4f, 0.5f, 1.0f });
 	m_ufo.addRing(UFO::Ring::Config{ 20, 12.0f, 0.0f, 2.0f, 1.5f });

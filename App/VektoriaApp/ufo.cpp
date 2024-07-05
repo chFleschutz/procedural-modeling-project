@@ -40,6 +40,16 @@ void UFO::createUfo()
 		{ 1.000000f, 0.843599f},
 		{ 1.000000f, 0.845288f},
 		{ 0.999113f, 0.847429f},
+		{ 0.962333f, 0.936211f},
+		{ 0.925552f, 1.024992f},
+		{ 0.888772f, 1.113773f},
+		{ 0.851991f, 1.202554f},
+		{ 0.815211f, 1.291335f},
+		{ 0.778430f, 1.380117f},
+		{ 0.741650f, 1.468898f},
+		{ 0.704870f, 1.557679f},
+		{ 0.668089f, 1.646460f},
+		{ 0.631309f, 1.735241f},
 		{ 0.594528f, 1.824023f},
 		{ 0.593969f, 1.825371f},
 		{ 0.593808f, 1.827060f},
@@ -177,6 +187,7 @@ void UFO::createUfo()
 	float heightScale = m_params.ufoHeight / outlineHeight;
 	float widthScale = m_params.ufoRadius / outlineRadius;
 
+	m_bodySweep.SetTextureRepeat(20.0f, 2.0f);
 	m_bodySweep.InitOutline(m_bodyOutline, bodyMatPointers, m_bodyMat);
 	m_bodyPlace.AddGeo(&m_bodySweep);
 	m_bodyPlace.RotateZ(HALFPI);
@@ -220,13 +231,10 @@ void UFO::createBeam()
 
 void UFO::createRings()
 {
-	// dummy geo
-	m_cube.Init(0.1f, nullptr);
-	auto sphere = new Vektoria::CGeoSphere();
-	sphere->Init(0.2f, nullptr, 32, 32);
+	m_smallUfo.Init(0.2f, m_bodyMat, 32, 32, Vektoria::eMapping_Cylindrical, 0.5f);
 	Vektoria::CHMat sphereTransform;
 	sphereTransform.Scale(1.0f, 0.5f, 1.0f);
-	sphere->Transform(sphereTransform);
+	m_smallUfo.Transform(sphereTransform);
 
 	for (auto& ring : m_rings)
 	{
@@ -235,7 +243,7 @@ void UFO::createRings()
 		for (int i = 0; i < objectCount; i++)
 		{
 			auto& objectPlace = ring.objectPlaces[i];
-			objectPlace.AddGeo(sphere); // TODO: Add different geos
+			objectPlace.AddGeo(&m_smallUfo); 
 			objectPlace.Scale(ring.config.objectScale);
 			objectPlace.TranslateDelta(ring.config.orbitRadius, ring.config.orbitHeight, 0.0f);
 			objectPlace.RotateYDelta((TWOPI / objectCount) * i);

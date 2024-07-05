@@ -103,7 +103,7 @@ private:
 	Vektoria::CLightSpot m_beamLight;
 	Vektoria::CLightRadial m_beamLightRadial;
 
-	Vektoria::CGeoCube m_cube;
+	Vektoria::CGeoSphere m_smallUfo;
 
 	// Materials
 	Vektoria::CMaterial* m_bodyMat = nullptr;

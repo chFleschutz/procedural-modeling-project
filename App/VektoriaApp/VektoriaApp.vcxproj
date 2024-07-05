@@ -166,7 +166,9 @@
     <ClInclude Include="ufo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="building.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="road.cpp" />
     <ClCompile Include="ufo.cpp" />
     <ClCompile Include="VektoriaApp.cpp" />
   </ItemGroup>

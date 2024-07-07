@@ -124,21 +124,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 void CGame::Tick(float time, float timeDelta)
 {
-	if (m_keyboard.KeyDown(DIK_0))
-		m_viewport.StyleOff();
-	else if (m_keyboard.KeyDown(DIK_1))
-		m_viewport.StylePainting();
-	else if (m_keyboard.KeyDown(DIK_2))
-		m_viewport.StylePencil();
-	else if (m_keyboard.KeyDown(DIK_3))
-		m_viewport.StyleCartoon();
-	else if (m_keyboard.KeyDown(DIK_4))
-		m_viewport.StylePurpleHaze();
-	else if (m_keyboard.KeyDown(DIK_5))
-		m_viewport.StyleToon();
-	else if (m_keyboard.KeyDown(DIK_6))
-		m_viewport.StylePopArt();
-
 	// Camera movement
 	m_keyboard.PlaceWASD(m_cameraPlace, timeDelta, true);
 

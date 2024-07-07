@@ -26,10 +26,6 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	assert(m_skyMat.LoadPreset("EnvChurchLowRes"));
 	m_root.AddMaterial(&m_skyMat);
 
-	assert(m_sphereMat.LoadPreset("HalloWeltLowRes"));
-	m_sphereMat.AlterEnvPath("..//..//lib//Materials//EnvChurchLowRes//EnvChurchLowResD.jpg", false);
-	m_sphere.SetMaterial(&m_sphereMat);
-
 	assert(m_waterMat.LoadPreset("Blood"));
 	m_root.AddMaterial(&m_waterMat);
 
@@ -111,12 +107,13 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 20.0f, 0.0f));
 
 	// Sphere
-	float sphereRadius = 1.0f;
-	m_sphere.Init(sphereRadius, &m_sphereMat, 50, 50);
-	m_sphereRotator.AddGeo(&m_sphere);
-	m_spherePlace.TranslateY(sphereRadius);
-	m_spherePlace.AddPlacement(&m_sphereRotator);
-	m_building.itemPlace().AddPlacement(&m_spherePlace);
+	float cubeSize = 0.5f;
+	m_theCube.Init(cubeSize, &m_brushedMetalMat);
+	m_itemRotator.AddGeo(&m_theCube);
+
+	m_itemPlace.TranslateY(2.0f * cubeSize);
+	m_itemPlace.AddPlacement(&m_itemRotator);
+	m_building.itemPlace().AddPlacement(&m_itemPlace);
 
 	// Road
 	m_road.setAreaMaterial(&m_groundMat);
@@ -146,8 +143,8 @@ void CGame::Tick(float time, float timeDelta)
 	m_keyboard.PlaceWASD(m_cameraPlace, timeDelta, true);
 
 	// Rotate sphere
-	m_sphereRotator.RotateY(-time);
-	m_sphereRotator.RotateXDelta(0.8f * sinf(time * 0.2f));
+	m_itemRotator.RotateY(-time);
+	m_itemRotator.RotateXDelta(0.8f * sinf(time * 0.2f));
 
 	// Rotate UFO
 	m_ufo.update(timeDelta);

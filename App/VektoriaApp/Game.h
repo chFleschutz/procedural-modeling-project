@@ -68,9 +68,9 @@ private:
 	CCamera m_camera;
 	CPlacement m_cameraPlace;
 
-	CGeoSphere m_sphere;
-	CPlacement m_spherePlace;
-	CPlacement m_sphereRotator;
+	CGeoCube m_theCube;
+	CPlacement m_itemPlace;
+	CPlacement m_itemRotator;
 
 	UFO m_ufo;				// Special Object
 	Building m_building;	// Building
@@ -80,7 +80,6 @@ private:
 	// Materials
 	CMaterial m_waterMat;
 	CMaterial m_groundMat;
-	CMaterial m_sphereMat;
 	CMaterial m_skyMat;
 	CMaterial m_beamMat;
 	CMaterial m_roadMaterial;

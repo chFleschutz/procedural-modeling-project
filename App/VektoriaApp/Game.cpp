@@ -58,11 +58,18 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_root.AddMaterial(&m_marbleMat);
 
 	m_brushedMetalAlbedo.Init("textures/brushed-metal/brushed-metal-albedo.jpg");
+	m_brushedMetalSpecular.Init("textures/brushed-metal/brushed-metal-specular.jpg");
 	m_brushedMetalNormal.Init("textures/brushed-metal/brushed-metal-normal.jpg");
+	m_brushedMetalHeight.Init("textures/brushed-metal/brushed-metal-height.jpg");
 	m_brushedMetalAlbedoTexture.Init(&m_brushedMetalAlbedo, eKindTexture_Diffuse);
+	m_brushedMetalSpecularTexture.Init(&m_brushedMetalSpecular, eKindTexture_Specular);
 	m_brushedMetalNormalTexture.Init(&m_brushedMetalNormal, eKindTexture_Bump);
+	m_brushedMetalHeightTexture.Init(&m_brushedMetalHeight, eKindTexture_Height);
 	m_brushedMetalMat.SetTextureDiffuse(&m_brushedMetalAlbedoTexture);
 	m_brushedMetalMat.SetTextureBump(&m_brushedMetalNormalTexture);
+	m_brushedMetalMat.SetTextureSpecular(&m_brushedMetalSpecularTexture);
+	m_brushedMetalMat.SetTextureHeight(&m_brushedMetalHeightTexture);
+	m_brushedMetalMat.SetDisplacementStrength(0.2f);
 	m_root.AddMaterial(&m_brushedMetalMat);
 
 	// Camera
@@ -85,8 +92,9 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 
 	// Building
 	Vektoria::CHVector buildingPos(9.0f, 0.0f, -3.0f);
-	m_building.setWallMaterial(&m_brickMat);
 	m_building.setRoofMaterial(&m_brickMat);
+	m_building.setWallMaterial(&m_brickMat);
+	m_building.setDoorFrameMaterial(&m_marbleMat);
 	m_building.setOuterFloorMaterial(&m_marbleMat);
 	m_building.setInnerFloorMaterial(&m_marbleMat);
 	m_building.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 2.0f, 0.0f));

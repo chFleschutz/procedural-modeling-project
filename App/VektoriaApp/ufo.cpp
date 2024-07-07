@@ -187,7 +187,7 @@ void UFO::createUfo()
 	float heightScale = m_params.ufoHeight / outlineHeight;
 	float widthScale = m_params.ufoRadius / outlineRadius;
 
-	m_bodySweep.SetTextureRepeat(20.0f, 2.0f);
+	m_bodySweep.SetTextureRepeat(20.0f, 4.0f);
 	m_bodySweep.InitOutline(m_bodyOutline, bodyMatPointers, m_bodyMat);
 	m_bodyPlace.AddGeo(&m_bodySweep);
 	m_bodyPlace.RotateZ(HALFPI);

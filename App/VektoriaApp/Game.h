@@ -91,9 +91,13 @@ private:
 
 	CMaterial m_brushedMetalMat;
 	CTexture m_brushedMetalAlbedoTexture;
+	CTexture m_brushedMetalSpecularTexture;
 	CTexture m_brushedMetalNormalTexture;
+	CTexture m_brushedMetalHeightTexture;
 	CImage m_brushedMetalAlbedo;
+	CImage m_brushedMetalSpecular;
 	CImage m_brushedMetalNormal;
+	CImage m_brushedMetalHeight;
 };
 
 

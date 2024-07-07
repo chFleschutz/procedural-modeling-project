@@ -2,8 +2,8 @@
 
 # Procedural Modeling Project
 
-This repo contains a project from the lecture Procedural Modelling.
-It features a scene build with procedural modelling techniques in the [Vektoria Game Engine](https://www.hs-kempten.de/fakultaet-informatik/zentrale-einrichtungen/computerspiel-zentrum-games/vektoria)
+This repo contains a project from the lecture Procedural Modeling.
+It features a scene build with procedural modeling techniques in the [Vektoria Game Engine](https://www.hs-kempten.de/fakultaet-informatik/zentrale-einrichtungen/computerspiel-zentrum-games/vektoria)
 
 The scene is a surreal landscape on a different planet, featuring snowy mountains peaking out of a quiet, blood-red sea. 
 In the middle of the environment stands a small hill, crowned by a round gallery. 

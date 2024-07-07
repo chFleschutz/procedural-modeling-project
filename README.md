@@ -1,3 +1,5 @@
+![](screenshots/title.png)
+
 # Procedural Modeling Project
 
 This repo contains a project from the lecture Procedural Modelling.
@@ -51,3 +53,13 @@ git clone https://github.com/chFleschutz/procedural-modeling-project.git
 1. Retarget the solution (Project -> Retarget Solution -> Ok)
 
 1. Build and run
+
+
+
+## Screenshots
+
+![](screenshots/overview.png)
+![](screenshots/far-away.png)
+![](screenshots/building.png)
+![](screenshots/space-ship.png)
+![](screenshots/space-ship-close.png)

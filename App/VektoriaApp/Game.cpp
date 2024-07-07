@@ -84,7 +84,7 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_island.initialize(m_scene);
 
 	// Building
-	Vektoria::CHVector buildingPos(9.0f, 0.0f, 7.0f);
+	Vektoria::CHVector buildingPos(9.0f, 0.0f, -3.0f);
 	m_building.setWallMaterial(&m_brickMat);
 	m_building.setRoofMaterial(&m_brickMat);
 	m_building.setOuterFloorMaterial(&m_marbleMat);
@@ -103,11 +103,12 @@ void CGame::Init(HWND hwnd, void(*procOS)(HWND hwnd, unsigned int uWndFlags), CS
 	m_ufo.initialize(m_scene, buildingPos + Vektoria::CHVector(0.0f, 20.0f, 0.0f));
 
 	// Sphere
-	m_sphere.Init(1.0f, &m_sphereMat, 50, 50);
+	float sphereRadius = 1.0f;
+	m_sphere.Init(sphereRadius, &m_sphereMat, 50, 50);
 	m_sphereRotator.AddGeo(&m_sphere);
-	m_spherePlace.Translate(buildingPos + Vektoria::CHVector(0.0f, 1.0f, 0.0f));
+	m_spherePlace.TranslateY(sphereRadius);
 	m_spherePlace.AddPlacement(&m_sphereRotator);
-	m_scene.AddPlacement(&m_spherePlace);
+	m_building.itemPlace().AddPlacement(&m_spherePlace);
 
 	// Road
 	m_road.setAreaMaterial(&m_groundMat);

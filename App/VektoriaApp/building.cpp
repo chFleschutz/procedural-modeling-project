@@ -76,6 +76,15 @@ void Building::initialize(Vektoria::CScene& scene, const Vektoria::CHVector& pos
 	m_roofPlace.RotateYDelta(PI);
 	m_roofPlace.AddGeo(&m_roof);
 
+	// Inner Cone
+	m_middleCone.Init(m_params.middleConeRadius, m_params.middleConeHeight, m_innerFloorMat, 24, false);
+	m_middleConePlace.AddGeo(&m_middleCone);
+	m_middleConePlace.TranslateY(m_params.innerFloorHeight);
+	m_innerFloorPlace.AddPlacement(&m_middleConePlace);
+
+	m_itemPlace.TranslateY(m_params.middleConeHeight);
+	m_middleConePlace.AddPlacement(&m_itemPlace);
+
 	// Hierachy
 	scene.AddPlacement(&m_place);
 	m_place.Translate(pos);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Vektoria/GeoBezierTable.h"
-#include "Vektoria/GeoCube.h"
 #include "Vektoria/GeoSphere.h"
 #include "Vektoria/GeoSweep.h"
 #include "Vektoria/Placement.h"

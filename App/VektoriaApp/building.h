@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vektoria/GeoCone.h"
 #include "Vektoria/GeoCylinder.h"
 #include "Vektoria/GeoTube.h"
 #include "Vektoria/GeoWall.h"
@@ -30,6 +31,9 @@ public:
 
 		float outerfloorHeight = 0.5f;
 		float innerFloorHeight = 0.3f;
+
+		float middleConeHeight = 0.5f;
+		float middleConeRadius = 0.2f;
 	};
 
 	Building() = default;
@@ -37,6 +41,8 @@ public:
 
 	void setParameters(const Building::Parameters& params) { m_params = params; }
 	const Building::Parameters& parameters() const { return m_params; }
+
+	Vektoria::CPlacement& itemPlace() { return m_itemPlace; }
 
 	void setOuterFloorMaterial(Vektoria::CMaterial* mat) { m_buildingFloorMat = mat; }
 	void setInnerFloorMaterial(Vektoria::CMaterial* mat) { m_innerFloorMat = mat; }
@@ -64,6 +70,9 @@ private:
 
 	Vektoria::CPlacement m_roofPlace;
 
+	Vektoria::CPlacement m_middleConePlace;
+	Vektoria::CPlacement m_itemPlace;
+
 	// Geos
 	Vektoria::CGeoTube m_buildingFloor;
 	Vektoria::CGeoCylinder m_innerFloor;
@@ -72,6 +81,7 @@ private:
 	Vektoria::CGeoWindow m_door;
 	Vektoria::CGeoWall m_baseWall;
 	Vektoria::CGeoWall m_roof;
+	Vektoria::CGeoCone m_middleCone;
 
 	// Materials
 	Vektoria::CMaterial* m_buildingFloorMat = nullptr;
